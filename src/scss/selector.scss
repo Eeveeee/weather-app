@@ -1,0 +1,12 @@
+.location {
+  &-selectors {
+    @include flex(column, flex-start, flex-start, nowrap);
+    @include wh(100%, auto);
+  }
+  &__selector {
+    &:nth-of-type(n + 2) {
+      margin-top: 10px;
+    }
+    @include wh(100%, auto);
+  }
+}

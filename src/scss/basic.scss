@@ -1,0 +1,50 @@
+body {
+  font-family: $font-mont;
+  background: $clr-gray-main;
+  color: $clr-black;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+
+  &.locked {
+    overflow: hidden;
+  }
+}
+input,
+input::placeholder {
+  font-family: $font-mont;
+}
+*::placeholder {
+  font-family: $font-mont;
+}
+img {
+  max-width: 100%;
+}
+a {
+  text-decoration: none;
+  color: $clr-dark;
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.global-container {
+  min-height: 100vh;
+  overflow: hidden;
+  @include flex(column, space-between, space-between, nowrap);
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  @media (max-width: $size-laptop) {
+    padding: 0 20px;
+  }
+}
+.basic-link {
+  cursor: pointer;
+  color: $clr-dark;
+  text-decoration: none;
+  transition: 0.1s;
+  @media (min-width: $size-laptop) {
+  }
+}

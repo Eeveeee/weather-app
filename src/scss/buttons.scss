@@ -1,0 +1,12 @@
+.btn {
+  background: none;
+  cursor: pointer;
+  color: $clr-white;
+  border: none;
+  font-size: 16px;
+  font-family: $font-mont;
+  padding: 0;
+  &:hover {
+    border: none;
+  }
+}
