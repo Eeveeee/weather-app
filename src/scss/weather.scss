@@ -1,0 +1,27 @@
+.weather {
+  &-cards {
+    @include flex($justify: flex-start, $wrap: wrap);
+    margin-bottom: 50px;
+  }
+  &__card {
+    max-width: 200px;
+    @include flex($direction: column);
+    padding: 20px;
+    border: 2px solid $clr-dark;
+    background: lighten($clr-gray-main, 30%);
+    border-radius: 15px;
+
+    .card {
+      &-icon-wrapper {
+        @include wh(100%, auto);
+        @include flex();
+        margin-bottom: 10px;
+        background: red;
+        background: url("../../public/images/test.jpg") center no-repeat;
+        background-size: cover;
+      }
+      &__icon {
+      }
+    }
+  }
+}

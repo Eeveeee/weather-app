@@ -10,22 +10,36 @@ export async function handleCities() {
   const countries = {};
   data.forEach((city) => {
     const currentCountry = city.country;
+    if (currentCountry === '13' || currentCountry === 'footnoteSeqID') {
+      return;
+    }
     if (!countries.hasOwnProperty(currentCountry)) {
       countries[`${currentCountry}`] = [];
     }
     countries[`${currentCountry}`].push(city.city);
   });
   window.state = { ...window.state, countries };
-  console.log(window.state);
 }
 
 export async function fetchWeatherData(city) {
-  const link = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5a555b9e83ec96b8384916c6c0a02b4e`;
+  const link = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=ru&appid=${process.env.WEATHER_API_KEY}`;
   const response = await fetch(link);
+  if (!response.ok) {
+    console.log('Пизда у тебя нет такого города');
+  }
   const data = await response.json();
+  console.log(data);
   return data;
 }
-export async function showWeather() {
-  const weather = await fetchWeatherData('Norilsk');
-  console.log(weather);
+export async function handleWeather(city) {
+  console.log('SHOW WEATHER');
+  const data = await fetchWeatherData(city);
+  console.log(data);
+  const weather = {
+    temperature: data.main,
+    weather: data.weather[0],
+    wind: data.wind,
+  };
+  window.state = { ...window.state, weather };
+  console.log(window.state);
 }

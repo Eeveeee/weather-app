@@ -1,5 +1,5 @@
 export function optionComponent(option) {
   return `
-<option value="${option}" class="location__selector">${option}</option>
+<option value="${option}" class="selector__option">${option}</option>
 `;
 }

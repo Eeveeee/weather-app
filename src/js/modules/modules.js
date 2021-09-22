@@ -19,7 +19,30 @@ export function doesElementExist(element) {
   }
   return false;
 }
+export function getWeather(kind = 'main') {
+  const weather = window.state.weather.weather;
+  switch (kind) {
+    case 'main':
+      return weather.main;
+    case 'description':
+      return weather.description;
+  }
+}
 
-// export function documentListener() {
-//   document.addEventListener('');
-// }
+export function getTemperature(kind = 'avg') {
+  const temperature = window.state.weather.temperature;
+  switch (kind) {
+    case 'avg':
+      return temperature.temp;
+    case 'max':
+      return temperature.temp_max;
+    case 'min':
+      return temperature.temp_min;
+    case 'feels':
+      return temperature.feels_like;
+  }
+}
+
+export function getWind() {
+  return window.state.weather.wind.speed;
+}

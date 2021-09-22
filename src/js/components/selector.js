@@ -1,13 +1,7 @@
 import { addListener, doesElementExist } from '../modules/modules';
 import { optionComponent } from './option';
-
+import { handleWeather } from '../api/api';
 export function selector(options, type = 'country') {
-  const selectorHTML = `
-  <select
-              name="${type}"
-              class="location__selector location-${type}"
-            ></select>
-  `;
   const selectorElement = document.createElement('select');
   selectorElement.classList.add(
     'location__selector',
@@ -21,12 +15,22 @@ export function selector(options, type = 'country') {
       `${optionComponent(option)}`
     );
   });
+  selectorElement.insertAdjacentHTML(
+    'afterbegin',
+    `<option hidden selected disabled value="" class="location__option">Варианты выбора</option>`
+  );
   addListenerByType(selectorElement, type);
 }
 
-function citySelectorListener(e, element) {}
+function citySelectorListener(e) {
+  console.log('citySelectorListener emitted');
+  const selectedCity = e.currentTarget.value;
+  // const selectedCity = this.value;
+  handleWeather(selectedCity);
+  console.log(window.state);
+}
 
-function countrySelectorListener(e, element) {
+function countrySelectorListener(e) {
   const selectedCountry = e.currentTarget.value;
   const citySelector = doesElementExist('.location__selector__city');
   if (citySelector) {
@@ -45,6 +49,17 @@ function addListenerByType(element, type) {
       });
       break;
     case 'city':
+      addListener(element, 'change', citySelectorListener);
+      // const event = new Event('change');
+      // element.dispatchEvent(event);
+      // addListener(
+      //   element,
+      //   'change',
+      //   (() => {
+      //     citySelectorListener.call(element);
+      //     return (e) => citySelectorListener(e);
+      //   })()
+      // );
       break;
   }
 }

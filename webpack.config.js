@@ -1,3 +1,5 @@
+const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack');
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -6,7 +8,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = !isProd;
-
+console.log(process.env);
 const filename = (ext) => (isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`);
 const jsLoaders = () => {
   const loaders = [
@@ -24,7 +26,6 @@ const jsLoaders = () => {
 
   return loaders;
 };
-
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: isDev ? 'development' : 'production',
@@ -41,15 +42,21 @@ module.exports = {
     },
   },
   devtool: isDev ? 'source-map' : '',
+
   devServer: {
     port: 3000,
     hot: isDev,
+    static: {
+      directory: path.join(__dirname, ''),
+    },
   },
   plugins: [
     new CleanWebpackPlugin(),
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
-      cssProcessor: require('cssnano'),
+      cssProcessor: require('cssnano')({
+        preset: 'default',
+      }),
       cssProcessorPluginOptions: {
         preset: [
           'default',
@@ -62,6 +69,7 @@ module.exports = {
         canPrint: true,
       },
     }),
+
     new HTMLWebpackPlugin({
       template: 'index.html',
       minify: {
@@ -69,15 +77,18 @@ module.exports = {
         collapseWhitespace: isProd,
       },
     }),
-    new CopyPlugin([
-      {
-        from: path.resolve(__dirname, 'src/favicon.ico'),
-        to: path.resolve(__dirname, 'dist'),
-      },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/favicon.ico'),
+          to: path.resolve(__dirname, 'dist'),
+        },
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: filename('css'),
     }),
+    new Dotenv(),
   ],
   module: {
     rules: [
@@ -86,10 +97,6 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-              hmr: isDev,
-              reloadAll: true,
-            },
           },
           'css-loader',
           'sass-loader',
