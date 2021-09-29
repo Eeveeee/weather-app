@@ -4,6 +4,7 @@
   @include wh(100%, 50px);
   border-radius: 15px;
   position: relative;
+  margin-bottom: 50px;
   @include flex();
   &-text {
     padding: 5px;
@@ -23,7 +24,7 @@
     @include wh(100%, auto);
     max-height: 200px;
     pointer-events: none;
-    @include invisibleScrollbar();
+    overflow-y: auto;
     display: none;
     &.active {
       display: block;
@@ -39,6 +40,14 @@
     padding: 5px;
     &:nth-last-of-type(n + 2) {
       border-bottom: 1px solid darken($clr-white, 50%);
+    }
+    .city-name {
+      pointer-events: none;
+    }
+    .country-code {
+      pointer-events: none;
+      background: $clr-black;
+      color: $clr-white;
     }
   }
   &-wrapper {

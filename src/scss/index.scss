@@ -1,9 +1,13 @@
 @import "./variables";
-@import "./reset";
 @import "./mixins";
-@import "./buttons";
+@import "./reset";
 @import "./basic";
+@import "./buttons";
 @import "./header";
 @import "./footer";
 @import "./searchbar";
 @import "./weather";
+.main {
+  margin-top: 40px;
+  margin-bottom: auto;
+}

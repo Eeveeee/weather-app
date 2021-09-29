@@ -43,6 +43,7 @@ module.exports = {
   devtool: isDev ? 'source-map' : '',
 
   devServer: {
+    liveReload: false,
     port: 3000,
     hot: isDev,
     static: {

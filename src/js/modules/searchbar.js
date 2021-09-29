@@ -1,7 +1,8 @@
 const { addListener } = require('./modules');
 import * as citiesList from '../../../public/json/city.list.json';
-import { getPercentOf } from '../utils/utils';
+import { getPercentOf, compareSimilarity } from '../utils/utils';
 import { handleWeather } from '../api/api';
+import { weatherCards } from '../components/weatherCards';
 
 const prevSearchingData = {
   searchingStr: null,
@@ -23,10 +24,14 @@ function addOptionsListener(element) {
     optionMousedown(e);
   });
 }
-
-function optionMousedown(e) {
-  const CityID = e.target.dataset.id;
-  handleWeather(CityID);
+async function optionMousedown(e) {
+  const target = e.target;
+  const CityID = target.dataset.id;
+  const CityName = target.querySelector('.city-name').innerText;
+  const searchBarTextElement = document.querySelector('.searchbar-text');
+  searchBarTextElement.innerText = CityName;
+  await handleWeather(CityID);
+  weatherCards();
 }
 
 function renderSearchbar(searchBarContainer, searchBar) {
@@ -50,7 +55,7 @@ function getHandledSearchingData(data) {
   return newString;
 }
 
-function findRelations(firstString, secondString) {
+function isStringsRelate(firstString, secondString) {
   firstString = getHandledSearchingData(firstString);
   secondString = getHandledSearchingData(secondString);
   if (firstString.length > secondString.length) {
@@ -60,23 +65,40 @@ function findRelations(firstString, secondString) {
   secondString = secondString.substring(0, firstString.length);
   return secondString === firstString;
 }
-function findSearchRelations(inputData, dbData) {
+function isSearchRelate(inputData, dbData) {
   inputData = getHandledSearchingData(inputData);
   dbData = getHandledSearchingData(dbData).substring(0, inputData.length);
   return inputData === dbData;
 }
 
+function getSimilarityPercent(inputData, dbData) {
+  inputData = getHandledSearchingData(inputData);
+  dbData = getHandledSearchingData(dbData);
+  let relationCounter = 0;
+  dbData = Array.from(dbData);
+  dbData.forEach((symbol, index) => {
+    if (symbol === inputData[index]) {
+      relationCounter++;
+    }
+  });
+  return getPercentOf(relationCounter, dbData.length);
+}
+
 function filterSearchingCities(inputData, dbData) {
-  const filteredCities = [];
+  let filteredCities = [];
+  const similarity = null;
   dbData.forEach((city) => {
-    if (findSearchRelations(inputData, city.name)) {
+    if (isSearchRelate(inputData, city.name)) {
       filteredCities.push({
         id: city.id,
         name: city.name,
         country: city.country,
+        similarity: getSimilarityPercent(inputData, city.name),
       });
     }
   });
+  filteredCities.sort(compareSimilarity);
+  console.log(filteredCities);
   return filteredCities;
 }
 
@@ -86,7 +108,10 @@ function addSearchbarOptions(options) {
   options.forEach((option) => {
     optionsContainer.insertAdjacentHTML(
       'afterbegin',
-      `<div data-id=${option.id} class="searchbar__option">${option.name}[${option.country}]</div>`
+      `<div  data-id=${option.id} class="searchbar__option">
+      <span class="city-name">${option.name}</span>
+      <span class="country-code">[ ${option.country} ]</span>
+    </div>`
     );
   });
 }
@@ -122,7 +147,7 @@ function searchBarChange(e, timeoutId) {
     console.log(prevSearchingStr);
     const usePrev =
       prevSearchingStr &&
-      findRelations(inputData, prevSearchingStr) &&
+      isStringsRelate(inputData, prevSearchingStr) &&
       getHandledSearchingData(prevSearchingStr) <=
         getHandledSearchingData(inputData);
     if (inputData) {

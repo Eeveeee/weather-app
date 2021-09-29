@@ -1,27 +1,57 @@
 .weather {
-  &-cards {
-    @include flex($justify: flex-start, $wrap: wrap);
-    margin-bottom: 50px;
-  }
   &__card {
-    max-width: 200px;
-    @include flex($direction: column);
+    width: 300px;
+    @include flex($direction: column, $justify: flex-start);
     padding: 20px;
     border: 2px solid $clr-dark;
     background: lighten($clr-gray-main, 30%);
     border-radius: 15px;
+    color: darken($clr-gray-main, 30%);
+    background: rgba(#6e9cff, 0.7);
 
-    .card {
-      &-icon-wrapper {
-        @include wh(100%, auto);
-        @include flex();
-        margin-bottom: 10px;
-        background: red;
-        background: url("../../public/images/test.jpg") center no-repeat;
-        background-size: cover;
-      }
-      &__icon {
+    &_state {
+      .card-text {
+        font-size: 25px;
       }
     }
+    .card {
+      &-text {
+        word-wrap: break-word;
+        text-align: center;
+        width: 100%;
+        .value-title {
+          margin-bottom: 5px;
+        }
+        .value {
+          width: 100%;
+          padding: 5px;
+          background: lighten($clr-gray-main, 40%);
+          border-radius: 5px;
+          background: #6e9cff;
+          color: white;
+          font-size: 20px;
+          &:nth-last-of-type(n + 2) {
+            margin-bottom: 10px;
+          }
+        }
+      }
+      &-icon-wrapper {
+        max-width: 100%;
+        @include flex();
+        margin-bottom: 20px;
+        background: rgba($clr-white, 10%);
+        padding: 20px;
+        border-radius: 10px;
+        max-width: 100%;
+        max-height: auto;
+        svg {
+          max-width: 80%;
+          height: auto;
+        }
+      }
+    }
+  }
+  &-cards {
+    @include flex($justify: space-evenly, $align: stretch, $wrap: wrap);
   }
 }

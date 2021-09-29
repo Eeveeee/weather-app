@@ -10,9 +10,6 @@ export async function handleCities() {
   const countries = {};
   data.forEach((city) => {
     const currentCountry = city.country;
-    if (currentCountry === '13' || currentCountry === 'footnoteSeqID') {
-      return;
-    }
     if (!countries.hasOwnProperty(currentCountry)) {
       countries[`${currentCountry}`] = [];
     }
