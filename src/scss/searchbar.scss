@@ -1,0 +1,52 @@
+.searchbar {
+  background: rgba($clr-white, 0.2);
+  border: 1px solid $clr-black;
+  @include wh(100%, 50px);
+  border-radius: 15px;
+  position: relative;
+  @include flex();
+  &-text {
+    padding: 5px;
+    @include flex($justify: flex-start);
+    @include wh(100%, 100%);
+    min-height: 18px;
+    line-height: 100%;
+    color: $clr-white;
+    font-size: 18px;
+    overflow: hidden;
+  }
+  &-options {
+    position: absolute;
+    top: 80%;
+    left: 0;
+    background: darken($clr-white, 30%);
+    @include wh(100%, auto);
+    max-height: 200px;
+    pointer-events: none;
+    @include invisibleScrollbar();
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
+  &__option {
+    pointer-events: all;
+    cursor: pointer;
+    &:hover {
+      border-bottom: 1px solid $clr-black;
+    }
+    width: 100%;
+    padding: 5px;
+    &:nth-last-of-type(n + 2) {
+      border-bottom: 1px solid darken($clr-white, 50%);
+    }
+  }
+  &-wrapper {
+    @include flex(column, center, center, nowrap);
+  }
+  &-title {
+    font-size: 32px;
+    color: $clr-white;
+    margin-bottom: 10px;
+  }
+}

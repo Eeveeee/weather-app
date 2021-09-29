@@ -17,3 +17,12 @@
   max-width: $width;
   max-height: $height;
 }
+@mixin invisibleScrollbar() {
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  scrollbar-width: none;
+  overflow-y: auto;
+}

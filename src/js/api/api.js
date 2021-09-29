@@ -22,7 +22,7 @@ export async function handleCities() {
 }
 
 export async function fetchWeatherData(city) {
-  const link = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=ru&appid=${process.env.WEATHER_API_KEY}`;
+  const link = `http://api.openweathermap.org/data/2.5/weather?id=${city}&units=metric&lang=ru&appid=${process.env.WEATHER_API_KEY}`;
   const response = await fetch(link);
   if (!response.ok) {
     console.log('Пизда у тебя нет такого города');

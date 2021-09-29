@@ -12,3 +12,6 @@ export function transformTemperature(value, from = 'f') {
       break;
   }
 }
+export function getPercentOf(firstNumber, secondNumber) {
+  return (firstNumber / secondNumber) * 100;
+}
