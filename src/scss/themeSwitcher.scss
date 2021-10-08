@@ -1,0 +1,30 @@
+.theme-switcher {
+  position: absolute;
+  right: 50px;
+  background: black;
+  @include wh(78px, 30px);
+  border-radius: 25px;
+  border: 2px solid;
+  background: linear-gradient(to right, $clr-gray-main 50%, darken($clr-white, 2%) 50%);
+  @include flex($justify: flex-start);
+  border-color: white;
+  border-radius: 15px;
+  transition: 0.3s;
+  padding: 4px;
+  cursor: pointer;
+  &-slider {
+    border-color: white;
+    transition: 0.3s;
+    border: 2px solid;
+    content: "";
+    @include wh(30px, 100%);
+    border-radius: 10px;
+  }
+  &.light {
+    @include flex($justify: flex-end);
+    border-color: $clr-gray-main;
+    .theme-switcher-slider {
+      border-color: $clr-gray-main;
+    }
+  }
+}

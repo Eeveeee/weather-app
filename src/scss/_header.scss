@@ -1,7 +1,12 @@
 .header {
   width: 100%;
-  height: 50px;
-  background: lighten($clr-gray-main, 5%);
+  min-height: 50px;
+  height: auto;
+  color: White;
+  position: relative;
   @include flex();
   font-size: 40px;
+  border: none;
+  border-bottom: 2px solid darken($clr-gray-main, 5%);
+  background: lighten($clr-gray-main, 5%);
 }

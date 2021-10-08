@@ -203,6 +203,11 @@ export function svgSelector(id) {
             fill="#ff5b42"
           />
         </svg>`;
+    case 'temperatureNormal':
+      return `<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M2.25954 6.74046L7 2L11.7405 6.74046" stroke="#404040" stroke-width="1.81493" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      `;
 
     default:
       return `  <svg
@@ -302,6 +307,5 @@ export function svgSelector(id) {
             </clipPath>
           </defs>
         </svg>`;
-      break;
   }
 }

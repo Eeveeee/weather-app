@@ -1,0 +1,48 @@
+body {
+  .global-container {
+    &:after {
+      background-color: rgba(black, 0.1);
+    }
+    &.light {
+      .header,
+      .footer {
+        border-color: darken($clr-gray-2, 15%);
+        background: rgba(white, 0.6);
+        color: $clr-gray-main;
+        a {
+          color: $clr-black;
+          border-color: $clr-black;
+        }
+      }
+      .searchbar {
+        box-shadow: none;
+        background: rgba(white, 0.5);
+        animation: backgroundWhite 10s infinite alternate;
+        background-position: 0 0;
+        background-size: cover;
+        border: 1px solid $clr-gray-3;
+        &-text {
+          color: black;
+        }
+        &-options {
+          background: rgba(white, 0.8);
+        }
+      }
+      .weather__card {
+        border: 1px solid black;
+        box-shadow: none;
+        background: lighten($clr-gray-2, 5%);
+        background: rgba(white, 0.7);
+
+        color: $clr-black;
+        .value {
+          color: $clr-black;
+        }
+        .card-text {
+          background: transparent;
+          border: 1px solid black;
+        }
+      }
+    }
+  }
+}

@@ -107,10 +107,6 @@ module.exports = {
         exclude: /node_modules/,
         use: jsLoaders(),
       },
-      {
-        test: /\.(png|jpg|gif|svg|webp)$/,
-        use: ['file-loader'],
-      },
     ],
   },
 };

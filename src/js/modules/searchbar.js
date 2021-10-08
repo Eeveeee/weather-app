@@ -1,4 +1,4 @@
-const { addListener } = require('./modules');
+import { addListener } from './modules';
 import * as citiesList from '../../../public/json/city.list.json';
 import { getPercentOf, compareSimilarity } from '../utils/utils';
 import { handleWeather } from '../api/api';
@@ -8,7 +8,7 @@ const prevSearchingData = {
   searchingStr: null,
   searchResult: null,
 };
-function searchBar() {
+export function searchBar() {
   const searchBarContainer = document.querySelector('.searchbar-wrapper');
   renderSearchbar(searchBarContainer, searchBar);
   const searchBarElement = document.querySelector('.searchbar');
@@ -26,6 +26,7 @@ function addOptionsListener(element) {
 }
 async function optionMousedown(e) {
   const target = e.target;
+  const options = document.querySelectorAll('.searchbar__option');
   const CityID = target.dataset.id;
   const CityName = target.querySelector('.city-name').innerText;
   const searchBarTextElement = document.querySelector('.searchbar-text');
@@ -98,8 +99,12 @@ function filterSearchingCities(inputData, dbData) {
     }
   });
   filteredCities.sort(compareSimilarity);
-  console.log(filteredCities);
   return filteredCities;
+}
+
+function clearSearchbarOptions() {
+  const optionsContainer = document.querySelector('.searchbar-options');
+  optionsContainer.innerHTML = '';
 }
 
 function addSearchbarOptions(options) {
@@ -119,6 +124,7 @@ function addSearchbarOptions(options) {
 function addSearchBarFocusListener(searchBarTextElement) {
   const options = document.querySelector('.searchbar-options');
   addListener(searchBarTextElement, 'focus', (e) => {
+    event.stopImmediatePropagation();
     options.classList.add('active');
   });
 }
@@ -126,6 +132,7 @@ function addSearchBarFocusListener(searchBarTextElement) {
 function addSearchBarUnfocusListener(searchBarTextElement) {
   const options = document.querySelector('.searchbar-options');
   addListener(searchBarTextElement, 'blur', (e) => {
+    event.stopImmediatePropagation();
     options.classList.remove('active');
   });
 }
@@ -141,10 +148,18 @@ function addSearchBarSearchListener(searchBarTextElement) {
 
 function searchBarChange(e, timeoutId) {
   const searchBar = e.currentTarget;
-  const inputData = e.currentTarget.textContent;
+  let inputData = e.currentTarget.textContent;
+  if (inputData.length === 0) {
+    const optionsContainer = document.querySelector('.searchbar-options');
+    optionsContainer.blur();
+    optionsContainer.innerHTML = '';
+  }
+  if (inputData === ' ') {
+    e.currentTarget.textContent = '';
+    return;
+  }
   timeoutId.timeout = setTimeout(() => {
     const prevSearchingStr = prevSearchingData.searchingStr;
-    console.log(prevSearchingStr);
     const usePrev =
       prevSearchingStr &&
       isStringsRelate(inputData, prevSearchingStr) &&
@@ -153,14 +168,12 @@ function searchBarChange(e, timeoutId) {
     if (inputData) {
       let filteredCities;
       if (!usePrev) {
-        console.log('!usePrev');
         filteredCities = filterSearchingCities(
           inputData,
           Array.from(JSON.parse(JSON.stringify(citiesList)))
         );
       }
       if (usePrev) {
-        console.log('usePrev');
         filteredCities = filterSearchingCities(
           inputData,
           prevSearchingData.searchResult
@@ -169,9 +182,6 @@ function searchBarChange(e, timeoutId) {
       prevSearchingData.searchingStr = inputData;
       prevSearchingData.searchResult = filteredCities;
       addSearchbarOptions(filteredCities);
-      console.log(prevSearchingData);
     }
   }, 1000);
 }
-
-searchBar();

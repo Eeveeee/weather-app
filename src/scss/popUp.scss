@@ -1,0 +1,29 @@
+.status-popUp {
+  position: absolute;
+  min-height: 100px;
+  @include wh(400px, auto);
+  border-radius: 15px;
+  color: black;
+  padding: 20px;
+  @include flex();
+  top: -100vh;
+  right: -100vw;
+  transition: 0.5s;
+  background: transparent;
+  font-size: 20px;
+  text-align: center;
+  &__text {
+    padding: 5px;
+  }
+  &.active {
+    top: 100px;
+    right: 20px;
+  }
+  &.error {
+    background: rgba(red, 50%);
+    color: white;
+  }
+  &.message {
+    background: rgba(white, 60%);
+  }
+}

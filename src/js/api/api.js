@@ -1,42 +1,56 @@
-export async function fetchCitiesData() {
-  const link = `https://countriesnow.space/api/v0.1/countries/population/cities`;
-  const response = await fetch(link);
-  const data = await response.json();
-  return data;
-}
-export async function handleCities() {
-  let data = await fetchCitiesData();
-  data = data.data;
-  const countries = {};
-  data.forEach((city) => {
-    const currentCountry = city.country;
-    if (!countries.hasOwnProperty(currentCountry)) {
-      countries[`${currentCountry}`] = [];
+import { weatherCards } from '../components/weatherCards';
+import { popUp } from '../components/popUp';
+
+export function weatherByUserCoords() {
+  navigator.geolocation.getCurrentPosition(
+    async (Position) => {
+      const lat = Position.coords.latitude;
+      const lon = Position.coords.longitude;
+      await handleWeather('', {
+        lat: lat,
+        lon: lon,
+      });
+      popUp('Показана погода согласно вашей геолокации');
+      weatherCards();
+    },
+    () => {
+      popUp(
+        'Геолокация недоступна, для быстрого поиска включите её и перезагрузите страницу'
+      );
     }
-    countries[`${currentCountry}`].push(city.city);
-  });
-  window.state = { ...window.state, countries };
+  );
 }
 
-export async function fetchWeatherData(city) {
-  const link = `http://api.openweathermap.org/data/2.5/weather?id=${city}&units=metric&lang=ru&appid=${process.env.WEATHER_API_KEY}`;
-  const response = await fetch(link);
-  if (!response.ok) {
-    console.log('Пизда у тебя нет такого города');
+export async function fetchWeatherData(city, coords = null) {
+  let link = null;
+  if (coords) {
+    link = ` http://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&units=metric&lang=ru&appid=${process.env.WEATHER_API_KEY}`;
+  } else {
+    link = `http://api.openweathermap.org/data/2.5/weather?id=${city}&units=metric&lang=ru&appid=${process.env.WEATHER_API_KEY}`;
   }
+  const response = await fetch(link);
   const data = await response.json();
-  console.log(data);
+  if (!response.ok) {
+    let description = data.message;
+    if (response.status >= 400 && response.status < 500) {
+      description =
+        'В приложении возникла ошибка, попробуйте воспользоваться позже';
+    }
+    if (response.status >= 500 && response.status < 511) {
+      description = 'Возникла ошибка сервера, попробуйте воспользоваться позже';
+    }
+    popUp(description, response.status);
+    throw new Error(`${data.message} [${response.status}]`);
+  }
   return data;
 }
-export async function handleWeather(city) {
-  console.log('SHOW WEATHER');
-  const data = await fetchWeatherData(city);
-  console.log(data);
+export async function handleWeather(city, coords = null) {
+  let data = null;
+  data = await fetchWeatherData(city, coords);
   const weather = {
     temperature: data.main,
     weather: data.weather[0],
     wind: data.wind,
   };
   window.state = { ...window.state, weather };
-  console.log(window.state);
 }

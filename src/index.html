@@ -4,26 +4,58 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <title>WeatherApp</title>
+    <title>WeatherNow</title>
   </head>
   <body>
     <div class="global-container">
-      <header class="header">WeatherApp</header>
-      <section class="main">
-        <div class="container main-container">
-          <div class="searchbar-wrapper">
-            <div class="searchbar-title">Введите город:</div>
+      <div class="content">
+        <header class="header">
+          WeatherNow
+
+          <div class="theme-switcher">
+            <div class="theme-switcher-slider"></div>
           </div>
-          <div class="weather-cards"></div>
+        </header>
+        <section class="main">
+          <div class="container main-container">
+            <div class="searchbar-wrapper">
+              <div class="searchbar-title">Введите город:</div>
+            </div>
+            <div class="weather-cards"></div>
+          </div>
+        </section>
+
+        <div class="status-popUp">
+          <div class="status-popUp__text">POPUP</div>
         </div>
-      </section>
-      <footer class="footer">FOOTER</footer>
+        <footer class="footer">
+          <div class="footer-API">
+            Бесплатное API, которое было использовано:
+            <a
+              target="_blank"
+              href="https://openweathermap.org/current"
+              class="footer-link footer-link__API"
+            >
+              OpenWeather
+            </a>
+          </div>
+          <div class="footer__developer">
+            Разработчик:
+            <a
+              target="_blank"
+              href="https://github.com/Eeveeee"
+              class="footer-link footer-link__developer"
+            >
+              Eeveeee
+            </a>
+          </div>
+        </footer>
+      </div>
     </div>
     <script type="text/javascript" src="./index.js"></script>
   </body>

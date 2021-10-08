@@ -1,11 +1,11 @@
 .searchbar {
-  background: rgba($clr-white, 0.2);
   border: 1px solid $clr-black;
   @include wh(100%, 50px);
   border-radius: 15px;
   position: relative;
   margin-bottom: 50px;
   @include flex();
+
   &-text {
     padding: 5px;
     @include flex($justify: flex-start);
@@ -18,23 +18,24 @@
   }
   &-options {
     position: absolute;
-    top: 80%;
+    top: calc(100% + 10px);
     left: 0;
     background: darken($clr-white, 30%);
     @include wh(100%, auto);
     max-height: 200px;
-    pointer-events: none;
     overflow-y: auto;
     display: none;
+    @include invisibleScrollbar();
     &.active {
       display: block;
     }
   }
   &__option {
-    pointer-events: all;
+    pointer-events: auto;
     cursor: pointer;
+    border-bottom: 1px solid transparent;
     &:hover {
-      border-bottom: 1px solid $clr-black;
+      background: darken($clr-white, 40%);
     }
     width: 100%;
     padding: 5px;
@@ -57,5 +58,14 @@
     font-size: 32px;
     color: $clr-white;
     margin-bottom: 10px;
+  }
+  box-shadow: 0 -200px 100px -100px lighten($clr-gray-main, 5%) inset;
+  animation: background 10s infinite alternate;
+  background-position: 0 0;
+  background-size: cover;
+}
+@keyframes background {
+  100% {
+    box-shadow: 0 -200px 100px -100px lighten($clr-gray-main, 40%) inset;
   }
 }

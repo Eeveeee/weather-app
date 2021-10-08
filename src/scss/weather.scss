@@ -5,10 +5,13 @@
     padding: 20px;
     border: 2px solid $clr-dark;
     background: lighten($clr-gray-main, 30%);
-    border-radius: 15px;
+    border-radius: 10px;
     color: darken($clr-gray-main, 30%);
-    background: rgba(#6e9cff, 0.7);
-
+    border: 2px solid darken($clr-gray-main, 10%);
+    background: lighten($clr-gray-main, 5%);
+    -webkit-box-shadow: 4px 4px 12px 0px darken($clr-gray-main, 15%);
+    -moz-box-shadow: 4px 4px 12px 0px darken($clr-gray-main, 15%);
+    box-shadow: 4px 4px 12px 0px darken($clr-gray-main, 15%);
     &_state {
       .card-text {
         font-size: 25px;
@@ -16,18 +19,22 @@
     }
     .card {
       &-text {
+        background: lighten($clr-gray-main, 16%);
+        padding: 5px;
+        border-radius: 10px;
         word-wrap: break-word;
         text-align: center;
         width: 100%;
         .value-title {
           margin-bottom: 5px;
+          font-weight: 500;
         }
         .value {
           width: 100%;
           padding: 5px;
-          background: lighten($clr-gray-main, 40%);
+          border: 1px solid black;
+          background: transparent;
           border-radius: 5px;
-          background: #6e9cff;
           color: white;
           font-size: 20px;
           &:nth-last-of-type(n + 2) {
@@ -36,7 +43,7 @@
         }
       }
       &-icon-wrapper {
-        max-width: 100%;
+        width: 100%;
         @include flex();
         margin-bottom: 20px;
         background: rgba($clr-white, 10%);

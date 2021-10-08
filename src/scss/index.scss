@@ -1,12 +1,16 @@
+@import "./reset";
 @import "./variables";
 @import "./mixins";
-@import "./reset";
 @import "./basic";
 @import "./buttons";
 @import "./header";
 @import "./footer";
 @import "./searchbar";
 @import "./weather";
+@import "./popUp.scss";
+@import "./info.scss";
+@import "./theme_light.scss";
+@import "./themeSwitcher.scss";
 .main {
   margin-top: 40px;
   margin-bottom: auto;
